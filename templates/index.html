@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Tienda Online</a>
+            <div class="d-flex">
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒 <span id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="search-container mb-4">
+                    <input type="text" id="search-input" class="form-control" placeholder="Buscar productos...">
+                </div>
+                <div id="products-container" class="row">
+                    {% for product in products %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">Precio: ${{ "%.2f"|format(product.price) }}</p>
+                                <p class="card-text">Stock: {{ product.stock }}</p>
+                                <button class="btn btn-primary" onclick="addToCart('{{ product.id }}')">
+                                    Añadir al carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="cart-container" class="cart-panel">
+                    <h3>Carrito de Compras</h3>
+                    <div id="cart-items"></div>
+                    <div class="cart-total">
+                        <h4>Total: $<span id="cart-total">0.00</span></h4>
+                    </div>
+                    <button class="btn btn-success w-100" onclick="checkout()">
+                        Completar Compra
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
